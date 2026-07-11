@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="en"><head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260707-05-f6eb95b"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jenisha Patel — Design Portfolio</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet">
+  <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .heading-font { font-family: 'Playfair Display', serif; }
+        .view { display: none; opacity: 0; transition: opacity 0.35s ease; }
+        .view.active { display: block; opacity: 1; }
+        .cat-card { transition: transform 0.25s, box-shadow 0.25s; cursor: pointer; }
+        .cat-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(124,58,237,0.12); }
+        .project-card { transition: transform 0.25s, box-shadow 0.25s; cursor: pointer; }
+        .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(124,58,237,0.1); }
+        .project-card:hover .card-overlay { opacity: 1; }
+        .card-overlay { opacity: 0; transition: opacity 0.25s; }
+        .featured-card { transition: transform 0.3s, box-shadow 0.3s; }
+        .featured-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(124,58,237,0.15); }
+        .filter-chip { transition: all 0.2s; }
+        .filter-chip.active { background: #7c3aed; color: white; }
+        .masonry { columns: 3; column-gap: 1.5rem; }
+        @media (max-width: 1024px) { .masonry { columns: 2; } }
+        @media (max-width: 640px) { .masonry { columns: 1; } }
+        .masonry > * { break-inside: avoid; margin-bottom: 1.5rem; }
+        .lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; }
+        .lightbox.open { display: flex; }
+        .fade-in { animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+  <script src="/_sdk/0179d719c431a79e.data_sdk.js" type="text/javascript" integrity="sha512-OsRvJkI5GkC3MJQcgotQYotpzrMSX415GiKKgvYdxQEEkzD/fdchShO2FMSy0PJr/tiINMXOk5Vl2zAgg6bUiA=="></script>
+  <script src="/_sdk/0b3af1c300e720aa.resizing_sdk.js" type="text/javascript" integrity="sha512-nX1P6oXZmEY5wCI2lUVg3BwKu1cr0yi+ZpXgZ0Yn90vkSwvpmyzBMvOyD6VLJUtBwFI2dSrw1b6OvORxSggw3w=="></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen w-full" style="background: rgb(250, 250, 250);"><!-- Navigation -->
+  <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-gray-100/80">
+   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"><button data-template-id="nav-home-btn" class="canva-button text-sm font-medium px-4 py-2 rounded-full hover:bg-purple-50 transition-colors" onclick="showView('home')" style="color: rgb(124, 58, 237); font-weight: 600; font-style: normal; font-size: 16px;">✦ Portfolio</button> <button data-template-id="nav-back-btn" class="canva-button text-sm font-medium px-4 py-2 rounded-full hover:bg-purple-50 transition-colors hidden" id="back-btn" onclick="showView('home')" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">← Back to Categories</button>
+    <div class="relative" id="search-wrapper"><input type="text" id="global-search" placeholder="Search projects..." class="pl-9 pr-4 py-2 text-sm rounded-full border border-gray-200 focus:border-purple-400 focus:outline-none w-48 lg:w-64 transition-all"> <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+    </div>
+   </div>
+  </nav><!-- HOME VIEW -->
+  <div id="view-home" class="view active">
+   <header class="text-center py-24 px-6">
+    <h1 data-template-id="hero-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 32px;">Jenisha Patel — Design Portfolio</h1>
+    <p data-template-id="hero-subtitle" class="canva-text mt-5 max-w-2xl mx-auto" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 18px;">Graphic Design • Marketing • Branding • Photography • UI/UX • Creative Projects</p>
+   </header>
+   <main class="max-w-7xl mx-auto px-6 pb-24">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-first-robotics" onclick="showView('first-robotics')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-purple-100">
+       <i data-lucide="cpu" class="w-5 h-5 text-purple-600"></i>
+      </div>
+      <h3 data-template-id="card-first-robotics-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">FIRST Robotics</h3>
+      <p data-template-id="card-first-robotics-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Competition graphics, branding, outreach materials, photography, certificates, presentations.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-zebra" onclick="showView('zebra-robotics')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-violet-100">
+       <i data-lucide="bot" class="w-5 h-5 text-violet-600"></i>
+      </div>
+      <h3 data-template-id="card-zebra-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Zebra Robotics</h3>
+      <p data-template-id="card-zebra-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Marketing campaigns, social media content, promotional graphics, photography, event materials.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-wolfhacks" onclick="showView('wolfhacks')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-indigo-100">
+       <i data-lucide="code-2" class="w-5 h-5 text-indigo-600"></i>
+      </div>
+      <h3 data-template-id="card-wolfhacks-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">WolfHacks</h3>
+      <p data-template-id="card-wolfhacks-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Hackathon branding, posters, banners, social media, website design, certificates, signage.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-superposition" onclick="showView('superposition')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-pink-100">
+       <i data-lucide="sparkles" class="w-5 h-5 text-pink-600"></i>
+      </div>
+      <h3 data-template-id="card-superposition-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Superposition Toronto</h3>
+      <p data-template-id="card-superposition-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Communications strategy, social media graphics, outreach campaigns, brand materials.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-founders-den" onclick="showView('founders-den')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-amber-100">
+       <i data-lucide="rocket" class="w-5 h-5 text-amber-600"></i>
+      </div>
+      <h3 data-template-id="card-founders-den-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Founders Den</h3>
+      <p data-template-id="card-founders-den-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Event branding, marketing campaigns, promotional content, operational materials.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-fblc" onclick="showView('fblc')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-green-100">
+       <i data-lucide="briefcase" class="w-5 h-5 text-green-600"></i>
+      </div>
+      <h3 data-template-id="card-fblc-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Brampton FBLC, JEC &amp; TA</h3>
+      <p data-template-id="card-fblc-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Board leadership, event branding, marketing campaigns, operational materials.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-scholars" onclick="showView('scholars')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-blue-100">
+       <i data-lucide="graduation-cap" class="w-5 h-5 text-blue-600"></i>
+      </div>
+      <h3 data-template-id="card-scholars-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Ching Scholars</h3>
+      <p data-template-id="card-scholars-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Marketing strategy, brand development, social media campaigns, event promotion.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-stem-orgs" onclick="showView('stem-orgs')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-teal-100">
+       <i data-lucide="flask-conical" class="w-5 h-5 text-teal-600"></i>
+      </div>
+      <h3 data-template-id="card-stem-orgs-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">STEM Organizations</h3>
+      <p data-template-id="card-stem-orgs-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Graphics and content for various STEM clubs, committees, and initiatives.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-volunteer" onclick="showView('volunteer')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-rose-100">
+       <i data-lucide="heart" class="w-5 h-5 text-rose-600"></i>
+      </div>
+      <h3 data-template-id="card-volunteer-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Volunteer Work</h3>
+      <p data-template-id="card-volunteer-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Community outreach, library programs, Hack the North, event support materials.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-school" onclick="showView('school')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-orange-100">
+       <i data-lucide="book-open" class="w-5 h-5 text-orange-600"></i>
+      </div>
+      <h3 data-template-id="card-school-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">School Designs</h3>
+      <p data-template-id="card-school-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Assignments, STEM graphics, club graphics, school events, presentations, research posters.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-personal" onclick="showView('personal')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-fuchsia-100">
+       <i data-lucide="palette" class="w-5 h-5 text-fuchsia-600"></i>
+      </div>
+      <h3 data-template-id="card-personal-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Personal Designs</h3>
+      <p data-template-id="card-personal-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Branding, logo design, typography, illustration, UI/UX, passion projects.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-branding" onclick="showView('branding')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-purple-100">
+       <i data-lucide="pen-tool" class="w-5 h-5 text-purple-600"></i>
+      </div>
+      <h3 data-template-id="card-branding-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Branding</h3>
+      <p data-template-id="card-branding-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Logos, brand identities, color systems, templates, brand guidelines, merchandise.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-webui" onclick="showView('webui')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-cyan-100">
+       <i data-lucide="layout" class="w-5 h-5 text-cyan-600"></i>
+      </div>
+      <h3 data-template-id="card-webui-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Website &amp; UI Designs</h3>
+      <p data-template-id="card-webui-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Landing pages, wireframes, website mockups, app concepts, dashboards.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-misc" onclick="showView('misc')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-gray-100">
+       <i data-lucide="shapes" class="w-5 h-5 text-gray-600"></i>
+      </div>
+      <h3 data-template-id="card-misc-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Miscellaneous</h3>
+      <p data-template-id="card-misc-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Additional creative work that doesn't fit neatly into other categories.</p>
+     </div>
+     <div class="cat-card rounded-2xl p-6 border border-gray-100 bg-white" data-template-id="card-contact" onclick="showView('contact')" style="background: rgb(255, 255, 255);">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-violet-100">
+       <i data-lucide="mail" class="w-5 h-5 text-violet-600"></i>
+      </div>
+      <h3 data-template-id="card-contact-title" class="canva-text font-semibold" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 19px;">Contact</h3>
+      <p data-template-id="card-contact-desc" class="canva-text mt-2 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Get in touch for collaborations, opportunities, or inquiries.</p>
+     </div>
+    </div>
+   </main>
+  </div><!-- FIRST ROBOTICS PAGE -->
+  <div id="view-first-robotics" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in"><!-- Header -->
+    <div class="mb-12">
+     <h2 data-template-id="fr-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">FIRST Robotics — FRC Team 3650, Mechawolves</h2>
+     <p data-template-id="fr-role" class="canva-text mt-2" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">Business Co-Lead &amp; Lead Social Media Manager</p>
+     <p data-template-id="fr-years" class="canva-text mt-1" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 14px;">September 2022 – June 2026</p>
+     <p data-template-id="fr-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Led branding, marketing, and digital presence for FRC Team 3650. Managed social media, created promotional materials, coordinated scouting operations, and documented competitions through photography.</p><!-- Stats -->
+     <div class="flex flex-wrap gap-6 mt-6"><span data-template-id="fr-stat-1" class="canva-text text-sm font-medium px-3 py-1 bg-purple-50 rounded-full" style="color: rgb(124, 58, 237); font-weight: 400; font-style: normal; font-size: 16px;">48 Social Media Posts</span> <span data-template-id="fr-stat-2" class="canva-text text-sm font-medium px-3 py-1 bg-purple-50 rounded-full" style="color: rgb(124, 58, 237); font-weight: 400; font-style: normal; font-size: 16px;">25 Event Graphics</span> <span data-template-id="fr-stat-3" class="canva-text text-sm font-medium px-3 py-1 bg-purple-50 rounded-full" style="color: rgb(124, 58, 237); font-weight: 400; font-style: normal; font-size: 16px;">84 Photos</span>
+     </div>
+    </div><!-- Featured Project -->
+    <section class="mb-16">
+     <h3 data-template-id="fr-featured-title" class="canva-text font-semibold mb-6" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 20px;">Featured Project</h3>
+     <div class="featured-card rounded-3xl overflow-hidden border border-gray-100 bg-white" data-template-id="fr-featured-card" style="background: rgb(255, 255, 255);"><img data-template-id="fr-featured-img" class="canva-image w-full h-72 object-cover" loading="lazy" src="https://images.pexels.com/photos/6125928/pexels-photo-6125928.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" alt="Group of children lifting a golden trophy indoors celebrating achievement and teamwork">
+      <div class="p-8">
+       <h4 data-template-id="fr-featured-card-title" class="canva-text font-semibold text-xl" style="color: rgb(31, 41, 55); font-weight: 600; font-style: normal; font-size: 20px;">Season Highlight Reel</h4>
+       <p data-template-id="fr-featured-card-desc" class="canva-text mt-2" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Complete social media campaign documenting the 2025 competition season from build to championship.</p>
+       <p data-template-id="fr-featured-card-meta" class="canva-text text-xs mt-3" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 16px;">2025 • Canva • Social Media</p>
+      </div>
+     </div>
+    </section><!-- Filter Chips -->
+    <div class="flex flex-wrap gap-2 mb-4" id="fr-filters"><button class="filter-chip active px-4 py-1.5 rounded-full text-sm border border-gray-200" onclick="filterCards('first-robotics','all')">All</button> <button class="filter-chip px-4 py-1.5 rounded-full text-sm border border-gray-200" onclick="filterCards('first-robotics','social')">Social Media</button> <button class="filter-chip px-4 py-1.5 rounded-full text-sm border border-gray-200" onclick="filterCards('first-robotics','events')">Events</button> <button class="filter-chip px-4 py-1.5 rounded-full text-sm border border-gray-200" onclick="filterCards('first-robotics','photography')">Photography</button>
+    </div><!-- Gallery -->
+    <div class="masonry" id="gallery-first-robotics">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fr-social-card-1" data-category="social" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative"><img data-template-id="fr-social-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/15635251/pexels-photo-15635251.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Flat lay of social media marketing paper and motivational notebook on wooden desk">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fr-social-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fr-social-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+       <p data-template-id="fr-social-card-1-meta" class="canva-text text-xs mt-2" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 16px;">2024 • Canva</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fr-social-card-2" data-category="social" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative"><img data-template-id="fr-social-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/5" src="https://images.pexels.com/photos/15635403/pexels-photo-15635403.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A concept image of a hashtag campaign displayed on paper for marketing strategies">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fr-social-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fr-social-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+       <p data-template-id="fr-social-card-2-meta" class="canva-text text-xs mt-2" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 16px;">2024 • Canva</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fr-social-card-3" data-category="social" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative"><img data-template-id="fr-social-img-3" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:16/9" src="https://images.pexels.com/photos/6956303/pexels-photo-6956303.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Close-up of a camera placed on brown paper with Social Media Marketing text">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fr-social-card-3-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fr-social-card-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+       <p data-template-id="fr-social-card-3-meta" class="canva-text text-xs mt-2" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 16px;">2025 • Canva</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fr-event-card-1" data-category="events" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative"><img data-template-id="fr-event-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:3/4" src="https://images.pexels.com/photos/9242834/pexels-photo-9242834.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Students engaged in assembling a robotics project in an educational lab setting">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fr-event-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fr-event-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+       <p data-template-id="fr-event-card-1-meta" class="canva-text text-xs mt-2" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 16px;">2024 • Canva</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fr-event-card-2" data-category="events" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative"><img data-template-id="fr-event-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/7869084/pexels-photo-7869084.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Group of kids working on robotics project, engaging in STEM education">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fr-event-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fr-event-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+       <p data-template-id="fr-event-card-2-meta" class="canva-text text-xs mt-2" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 16px;">2025 • Canva</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fr-event-card-3" data-category="events" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative"><img data-template-id="fr-event-img-3" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:16/9" src="https://images.pexels.com/photos/7868834/pexels-photo-7868834.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Three teenagers concentrating on robotics projects in a bright, indoor setting">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fr-event-card-3-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fr-event-card-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+       <p data-template-id="fr-event-card-3-meta" class="canva-text text-xs mt-2" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 16px;">2025 • Canva</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fr-photo-card-1" data-category="photography" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative"><img data-template-id="fr-photo-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:3/2" src="https://images.pexels.com/photos/33714947/pexels-photo-33714947.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Group of photographers capturing moments at an indoor event">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fr-photo-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fr-photo-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fr-photo-card-2" data-category="photography" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative"><img data-template-id="fr-photo-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/3" src="https://images.pexels.com/photos/33714937/pexels-photo-33714937.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Group of photographers focusing on cameras at an outdoor event">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fr-photo-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fr-photo-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fr-photo-card-3" data-category="photography" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative"><img data-template-id="fr-photo-img-3" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:2/3" src="https://images.pexels.com/photos/31671229/pexels-photo-31671229.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Black and white photo of a photographer focusing with a telephoto lens outdoors">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fr-photo-card-3-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fr-photo-card-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- ZEBRA ROBOTICS PAGE -->
+  <div id="view-zebra-robotics" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="zr-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Zebra Robotics</h2>
+     <p data-template-id="zr-role" class="canva-text mt-2" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">Marketing &amp; Communications Specialist</p>
+     <p data-template-id="zr-years" class="canva-text mt-1" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 14px;">May 2026 – Present | Volunteer 2023–2024</p>
+     <p data-template-id="zr-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Develop marketing initiatives, create social media content, capture photography and video, design promotional materials, and represent the organization at community events.</p>
+     <div class="flex flex-wrap gap-6 mt-6"><span data-template-id="zr-stat-1" class="canva-text text-sm font-medium px-3 py-1 bg-violet-50 rounded-full" style="color: rgb(124, 58, 237); font-weight: 400; font-style: normal; font-size: 16px;">24 Social Media Posts</span> <span data-template-id="zr-stat-2" class="canva-text text-sm font-medium px-3 py-1 bg-violet-50 rounded-full" style="color: rgb(124, 58, 237); font-weight: 400; font-style: normal; font-size: 16px;">12 Promotional Graphics</span>
+     </div>
+    </div>
+    <div class="masonry" id="gallery-zebra-robotics">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="zr-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="zr-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/9242858/pexels-photo-9242858.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Two young engineers collaboratively work on a robotic assembly indoors">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="zr-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="zr-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="zr-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="zr-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/5" src="https://images.pexels.com/photos/7869033/pexels-photo-7869033.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Close-up of hands assembling a robotic project with cables indoors">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="zr-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="zr-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="zr-card-3" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="zr-img-3" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:16/9" src="https://images.pexels.com/photos/15595051/pexels-photo-15595051.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A desktop setup with social media marketing essentials including a keyboard, lightbox, and guide">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="zr-card-3-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="zr-card-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- WOLFHACKS PAGE -->
+  <div id="view-wolfhacks" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="wh-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">WolfHacks</h2>
+     <p data-template-id="wh-role" class="canva-text mt-2" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">Director of Marketing &amp; PR / Organizer</p>
+     <p data-template-id="wh-years" class="canva-text mt-1" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 14px;">2025 &amp; 2026 | Chinguacousy STAC</p>
+     <p data-template-id="wh-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Led branding, marketing, outreach, and digital operations for one of the school's largest student-led hackathons. Designed complete visual identity including posters, banners, social media, certificates, and website.</p>
+    </div>
+    <div class="masonry" id="gallery-wolfhacks">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="wh-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="wh-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:16/9" src="https://images.pexels.com/photos/1181260/pexels-photo-1181260.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Three women working on laptops in a stylish office, focused on a collaborative project">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="wh-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="wh-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="wh-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="wh-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/6424590/pexels-photo-6424590.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Close-up of a laptop screen displaying code, set against a dark backdrop with blue lighting">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="wh-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="wh-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="wh-card-3" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="wh-img-3" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/5" src="https://images.pexels.com/photos/4385446/pexels-photo-4385446.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Young adults collaborating on coding projects in a trendy, dimly lit café setting">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="wh-card-3-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="wh-card-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- SUPERPOSITION PAGE -->
+  <div id="view-superposition" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="sp-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Superposition Toronto</h2>
+     <p data-template-id="sp-role" class="canva-text mt-2" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">Director of Communications &amp; Social Media Coordinator</p>
+     <p data-template-id="sp-years" class="canva-text mt-1" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 14px;">June 2025 – May 2026</p>
+     <p data-template-id="sp-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Directed communications and social media strategy promoting gender diversity and accessibility in technology. Designed promotional graphics and coordinated outreach campaigns.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="sp-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="sp-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/15635244/pexels-photo-15635244.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Creative desk setup featuring a hashtag campaign paper and a motivational notebook">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="sp-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="sp-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="sp-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="sp-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:16/9" src="https://images.pexels.com/photos/12899191/pexels-photo-12899191.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Two developers engage in software programming on a laptop in a modern office setting">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="sp-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="sp-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="sp-card-3" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="sp-img-3" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/5" src="https://images.pexels.com/photos/12899151/pexels-photo-12899151.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Two adults collaborating on programming tasks using a laptop in an office setting">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="sp-card-3-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="sp-card-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- FOUNDERS DEN PAGE -->
+  <div id="view-founders-den" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="fd-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Founders Den 2026</h2>
+     <p data-template-id="fd-role" class="canva-text mt-2" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">Vice Chairwoman (Operations)</p>
+     <p data-template-id="fd-years" class="canva-text mt-1" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 14px;">November 2024 – June 2026 | Brampton FBLC</p>
+     <p data-template-id="fd-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Directed operational planning, marketing campaigns, and branding for entrepreneurship programs and networking events.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fd-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="fd-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/8490097/pexels-photo-8490097.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Overhead shot of business cards and stationery on a dark desk with modern accessories">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fd-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fd-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fd-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="fd-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/3" src="https://images.pexels.com/photos/29581805/pexels-photo-29581805.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A vibrant display of Canva Community Labs tote, badges, and stationery">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fd-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fd-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- FBLC PAGE -->
+  <div id="view-fblc" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="fblc-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Brampton FBLC, JEC &amp; TA</h2>
+     <p data-template-id="fblc-role" class="canva-text mt-2" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">Member of the Board of Directors &amp; Chief Director</p>
+     <p data-template-id="fblc-years" class="canva-text mt-1" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 14px;">November 2024 – June 2026</p>
+     <p data-template-id="fblc-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Served on the Board of Directors providing strategic leadership and governance. As Vice Chairwoman for Founders Den 2026, directed operational planning, marketing campaigns, and program execution.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fblc-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="fblc-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/29581805/pexels-photo-29581805.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A vibrant display of Canva Community Labs tote, badges, and stationery">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fblc-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fblc-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="fblc-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="fblc-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/5" src="https://images.pexels.com/photos/8490097/pexels-photo-8490097.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Overhead shot of business cards and stationery on a dark desk">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="fblc-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="fblc-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCHOLARS PAGE -->
+  <div id="view-scholars" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="cs-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Chinguacousy Scholars</h2>
+     <p data-template-id="cs-role" class="canva-text mt-2" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">Executive Marketing Director</p>
+     <p data-template-id="cs-years" class="canva-text mt-1" style="color: rgb(156, 163, 175); font-weight: 400; font-style: normal; font-size: 14px;">September 2024 – June 2026</p>
+     <p data-template-id="cs-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Led marketing strategy and brand development, overseeing social media presence, promotional campaigns, and community outreach.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="cs-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="cs-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/26576975/pexels-photo-26576975.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Minimalist design showcasing Favour Media logo on folded textured paper">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="cs-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="cs-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="cs-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="cs-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/5" src="https://images.pexels.com/photos/4466420/pexels-photo-4466420.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Collection of black mockup business cards placed against white wall">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="cs-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="cs-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- STEM ORGS PAGE -->
+  <div id="view-stem-orgs" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="so-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">STEM Organizations</h2>
+     <p data-template-id="so-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Graphics and content created for various STEM clubs, committees, and community initiatives.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="so-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="so-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/6193661/pexels-photo-6193661.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Flat lay of a creative workspace featuring colored pencils, notebook, and graphic tablet">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="so-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="so-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="so-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="so-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/3" src="https://images.pexels.com/photos/3850237/pexels-photo-3850237.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Devices and sketchbook on marble table">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="so-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="so-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- VOLUNTEER PAGE -->
+  <div id="view-volunteer" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="vol-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Volunteer Work</h2>
+     <p data-template-id="vol-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Community outreach, Brampton Library programs, Hack the North, and event support materials.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="vol-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="vol-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:3/2" src="https://images.pexels.com/photos/30697990/pexels-photo-30697990.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Photographers participating in a hands-on group photography workshop in a studio setting">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="vol-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="vol-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="vol-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="vol-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/31328551/pexels-photo-31328551.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Three adult photographers displaying cameras in a sunny outdoor setting">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="vol-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="vol-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- SCHOOL PAGE -->
+  <div id="view-school" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="sch-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">School Designs</h2>
+     <p data-template-id="sch-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Assignments, STEM graphics, club graphics, school events, presentations, research posters, and infographics.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="sch-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="sch-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:16/9" src="https://images.pexels.com/photos/3850215/pexels-photo-3850215.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Top-down view of a desk setup including a laptop, drawing tablet, and design sketches">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="sch-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="sch-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="sch-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="sch-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/3850229/pexels-photo-3850229.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Graphic tablet with marker on marble table">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="sch-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="sch-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="sch-card-3" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="sch-img-3" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/5" src="https://images.pexels.com/photos/3850210/pexels-photo-3850210.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A modern workspace featuring a drawing tablet, smartphone, laptop, and design documents on a marble desk">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="sch-card-3-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="sch-card-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- PERSONAL PAGE -->
+  <div id="view-personal" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="per-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Personal Designs</h2>
+     <p data-template-id="per-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Independent creative projects including branding, logo design, typography, illustration, UI/UX, and passion projects.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="per-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="per-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/7130491/pexels-photo-7130491.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Bright colorful abstract background with blue and purple lights">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="per-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="per-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="per-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="per-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:3/4" src="https://images.pexels.com/photos/2457284/pexels-photo-2457284.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Vibrant geometric composition with yellow, purple, black, and white paper textures">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="per-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="per-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="per-card-3" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="per-img-3" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:16/9" src="https://images.pexels.com/photos/11859363/pexels-photo-11859363.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A minimalist design featuring a purple wall with intriguing shadow patterns">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="per-card-3-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="per-card-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- BRANDING PAGE -->
+  <div id="view-branding" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="br-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Branding</h2>
+     <p data-template-id="br-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Logos, brand identities, color systems, templates, icons, brand guidelines, and merchandise designs.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="br-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="br-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/3" src="https://images.pexels.com/photos/7318941/pexels-photo-7318941.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A close-up of a hand holding a blank business card above a wooden desk">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="br-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="br-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="br-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="br-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/8490097/pexels-photo-8490097.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Overhead shot of business cards and stationery on a dark desk with modern accessories">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="br-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="br-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="br-card-3" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="br-img-3" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:3/4" src="https://images.pexels.com/photos/26576975/pexels-photo-26576975.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Minimalist design showcasing logo on folded textured paper">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="br-card-3-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="br-card-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- WEB UI PAGE -->
+  <div id="view-webui" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="wu-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Website &amp; UI Designs</h2>
+     <p data-template-id="wu-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Landing pages, wireframes, website mockups, app concepts, dashboards, and interfaces.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="wu-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="wu-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:16/9" src="https://images.pexels.com/photos/285814/pexels-photo-285814.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A stylish workspace featuring a laptop and monitors displaying design software">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="wu-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="wu-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="wu-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="wu-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:16/10" src="https://images.pexels.com/photos/326514/pexels-photo-326514.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A modern computer screen displaying web design work">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="wu-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="wu-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="wu-card-3" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="wu-img-3" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:4/3" src="https://images.pexels.com/photos/7191172/pexels-photo-7191172.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Modern laptop displaying a checkout form against a minimalist beige backdrop">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="wu-card-3-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="wu-card-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- MISC PAGE -->
+  <div id="view-misc" class="view">
+   <div class="max-w-6xl mx-auto px-6 py-16 fade-in">
+    <div class="mb-12">
+     <h2 data-template-id="mi-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Miscellaneous</h2>
+     <p data-template-id="mi-desc" class="canva-text mt-4 max-w-3xl" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Additional creative work that doesn't fit neatly into other categories.</p>
+    </div>
+    <div class="masonry">
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="mi-card-1" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="mi-img-1" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:1/1" src="https://images.pexels.com/photos/7130543/pexels-photo-7130543.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Bright colorful abstract background with blue soft vibrant light">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="mi-card-1-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="mi-card-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+     <div class="project-card rounded-2xl overflow-hidden border border-gray-100 bg-white" data-template-id="mi-card-2" data-category="all" onclick="openLightbox(this)" style="background: rgb(255, 255, 255);">
+      <div class="relative">
+       <img data-template-id="mi-img-2" class="canva-image w-full object-cover" loading="lazy" style="aspect-ratio:16/9" src="https://images.pexels.com/photos/20181320/pexels-photo-20181320.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Colorful abstract geometric design featuring a blend of purple, pink, and orange hues">
+       <div class="card-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+        <span class="text-white font-medium text-sm">View Project</span>
+       </div>
+      </div>
+      <div class="p-4">
+       <h4 data-template-id="mi-card-2-title" class="canva-text font-medium" style="color: rgb(31, 41, 55); font-weight: 500; font-style: normal; font-size: 16px;">Project Title</h4>
+       <p data-template-id="mi-card-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Replace with project description</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- CONTACT PAGE -->
+  <div id="view-contact" class="view">
+   <div class="max-w-2xl mx-auto px-6 py-16 text-center fade-in">
+    <h2 data-template-id="ct-title" class="canva-text heading-font" style="color: rgb(26, 26, 46); font-weight: 700; font-style: normal; font-size: 24px;">Get In Touch</h2>
+    <p data-template-id="ct-desc" class="canva-text mt-4" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Interested in collaborating or have questions about my work? Reach out below.</p>
+    <div class="mt-8 space-y-4">
+     <p data-template-id="ct-email" class="canva-text" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">✉ jeni.1245690@gmail.com</p>
+     <p data-template-id="ct-linkedin" class="canva-text" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">🔗 linkedin.com/in/jenisha-patel18</p>
+     <p data-template-id="ct-github" class="canva-text" style="color: rgb(124, 58, 237); font-weight: 500; font-style: normal; font-size: 16px;">💻 github.com/Totallyn0tJeni</p>
+    </div>
+   </div>
+  </div><!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)"><button class="absolute top-6 right-6 text-white/80 hover:text-white z-10" onclick="closeLightbox(event)"><i data-lucide="x" class="w-8 h-8"></i></button> <button class="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white" id="lb-prev" onclick="lbNav(-1,event)"><i data-lucide="chevron-left" class="w-8 h-8"></i></button> <button class="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white" id="lb-next" onclick="lbNav(1,event)"><i data-lucide="chevron-right" class="w-8 h-8"></i></button>
+   <div class="max-w-4xl max-h-[90vh] overflow-auto bg-white rounded-2xl mx-4" onclick="event.stopPropagation()"><img id="lb-img" class="w-full object-contain max-h-[60vh]">
+    <div class="p-6">
+     <h3 id="lb-title" class="font-semibold text-lg text-gray-900"></h3>
+     <p id="lb-desc" class="text-sm text-gray-600 mt-2"></p>
+     <p id="lb-meta" class="text-xs text-gray-400 mt-3"></p>
+    </div>
+   </div>
+  </div>
+  <script src="/_sdk/e063511df281944a.editing_sdk.js" integrity="sha512-Xa8p4aPfoMxVnzxQE2WAG0FfoaPLxdjOJMfUZGm1yZosJTYmnNDvgLkJ2EoN0i3zxjeQVAzUMSXNvTKQVqbXyQ=="></script>
+  <script>
+    // View switching
+    function showView(id) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        const target = document.getElementById('view-' + id);
+        if (target) target.classList.add('active');
+        document.getElementById('back-btn').classList.toggle('hidden', id === 'home');
+        window.scrollTo(0, 0);
+    }
+
+    // Filter chips
+    function filterCards(viewId, category) {
+        const gallery = document.getElementById('gallery-' + viewId);
+        if (!gallery) return;
+        const chips = gallery.closest('.fade-in').querySelectorAll('.filter-chip');
+        chips.forEach(c => c.classList.remove('active'));
+        event.target.classList.add('active');
+        gallery.querySelectorAll('.project-card').forEach(card => {
+            if (category === 'all' || card.dataset.category === category) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Search
+    document.getElementById('global-search').addEventListener('input', function(e) {
+        const q = e.target.value.toLowerCase();
+        const activeView = document.querySelector('.view.active');
+        if (!activeView) return;
+        activeView.querySelectorAll('.project-card').forEach(card => {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(q) ? '' : 'none';
+        });
+    });
+
+    // Lightbox
+    let lbCards = [];
+    let lbIndex = 0;
+
+    function openLightbox(el) {
+        const gallery = el.closest('.masonry') || el.closest('.view');
+        lbCards = Array.from(gallery.querySelectorAll('.project-card'));
+        lbIndex = lbCards.indexOf(el);
+        showLbContent();
+        document.getElementById('lightbox').classList.add('open');
+    }
+
+    function showLbContent() {
+        const card = lbCards[lbIndex];
+        const img = card.querySelector('img');
+        const title = card.querySelector('h4');
+        const desc = card.querySelector('p');
+        const meta = card.querySelectorAll('p')[1];
+        document.getElementById('lb-img').src = img ? img.src : '';
+        document.getElementById('lb-title').textContent = title ? title.textContent : '';
+        document.getElementById('lb-desc').textContent = desc ? desc.textContent : '';
+        document.getElementById('lb-meta').textContent = meta ? meta.textContent : '';
+    }
+
+    function lbNav(dir, e) {
+        e.stopPropagation();
+        lbIndex = (lbIndex + dir + lbCards.length) % lbCards.length;
+        showLbContent();
+    }
+
+    function closeLightbox(e) {
+        if (e.target.closest('#lb-img') || e.target.closest('.max-w-4xl')) return;
+        document.getElementById('lightbox').classList.remove('open');
+    }
+
+    document.addEventListener('keydown', e => {
+        if (!document.getElementById('lightbox').classList.contains('open')) return;
+        if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+        if (e.key === 'ArrowLeft') { lbIndex = (lbIndex - 1 + lbCards.length) % lbCards.length; showLbContent(); }
+        if (e.key === 'ArrowRight') { lbIndex = (lbIndex + 1) % lbCards.length; showLbContent(); }
+    });
+
+    lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a174ac8f0522a20a',t:'MTc4MzQwNDUwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
