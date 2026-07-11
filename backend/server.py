@@ -621,19 +621,14 @@ async def list_projects(
     if featured is not None: match["featured"] = featured
     if tag: match["tags"] = tag
     if q:
-        match.setdefault("$and", []).append({"$or": [
+        q_or = [
             {"title": {"$regex": q, "$options": "i"}},
             {"description": {"$regex": q, "$options": "i"}},
             {"tags": {"$regex": q, "$options": "i"}},
             {"organization": {"$regex": q, "$options": "i"}},
             {"skills": {"$regex": q, "$options": "i"}},
-        ]}) if "$and" in match else match.update({"$or": [
-            {"title": {"$regex": q, "$options": "i"}},
-            {"description": {"$regex": q, "$options": "i"}},
-            {"tags": {"$regex": q, "$options": "i"}},
-            {"organization": {"$regex": q, "$options": "i"}},
-            {"skills": {"$regex": q, "$options": "i"}},
-        ]})
+        ]
+        match.setdefault("$and", []).append({"$or": q_or})
     if year:
         match["$expr"] = {"$eq": [{"$year": {"$dateFromString": {"dateString": "$created_at", "onError": None}}}, year]}
 

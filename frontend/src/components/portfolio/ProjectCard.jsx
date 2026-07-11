@@ -28,7 +28,8 @@ export default function ProjectCard({ project, aspect }) {
           <p className="canva-text text-sm mt-1 text-gray-400">{project.category || "—"}</p>
         )}
         <p className="canva-text text-xs mt-2 text-gray-400">
-          {project.organization || project.category || "Design"} • Canva
+          {project.organization || project.category || "Design"}
+          {project.provider === "canva" && " • Canva"}
         </p>
       </div>
     </Link>
