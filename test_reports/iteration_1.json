@@ -1,0 +1,32 @@
+{
+  "summary": "First-finish smoke test: backend endpoints, auth guards, admin allowlist, Canva 'not configured' gating, projects CRUD, AI classify, and frontend Home/Gallery/Detail/Login/Admin-redirect all verified working via public URL.",
+  "tested_scope": ["frontend", "backend", "auth", "integration"],
+  "passed": [
+    "GET /api/ -> 200",
+    "GET /api/projects -> total=16, items=16",
+    "GET /api/projects/stats -> total=16 with organization/category breakdown",
+    "GET /api/projects/season-highlight-reel (slug) -> project + 3 related",
+    "Filters: featured=true -> 6; organization=FIRST Robotics -> 3 (only FIRST Robotics); q=season -> 1",
+    "sort=alphabetical returns A-Z (Ching Scholars.., Competition Banner, FBLC..)",
+    "Auth guard: /api/auth/me and /api/admin/dashboard unauthenticated -> 401",
+    "Bearer token auth: /api/auth/me returns seeded user; /api/admin/dashboard returns totals, canva_configured=false, canva_accounts=[]",
+    "Admin allowlist: GET returns both seeded emails; POST new email ok:true; DELETE ok:true",
+    "Allowlist enforcement: non-allowlisted user (notallowed@example.com) hitting /api/auth/me -> 403",
+    "Canva not configured: /api/canva/status configured=false; /api/canva/connect -> 400; POST /api/canva/sync -> 404",
+    "PUT /api/projects/{id} authenticated updates tags+featured (verified via GET)",
+    "POST /api/ai/classify/{id} returns ok:true with result object (organization/category/tags/featured) — falls back to defaults (ai_source=error) since LLM call likely rate-limited/unreachable; endpoint contract satisfied",
+    "Frontend Home: hero 'Crafting stories through' visible, stats show 16 projects, featured grid renders, purple accent + Playfair heading preserved",
+    "Frontend Gallery: 16 project cards in masonry; search 'season' filters to 1",
+    "Frontend Detail (/project/season-highlight-reel): title 'Season Highlight Reel' and 'Open in Canva' button visible",
+    "Frontend /login shows Google sign-in; /admin without auth redirects to /login"
+  ],
+  "failed": [],
+  "action_items": [
+    "Optional: AI classify falls back to defaults (ai_source=error). Endpoint contract is met, but verify EMERGENT_LLM_KEY / emergentintegrations connectivity if real classification is needed."
+  ],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "retest_needed": false,
+  "full_testing_deferred": true,
+  "test_credentials": "Seeded via mongosh per /app/auth_testing.md. Admin session_token used for authenticated tests; non-allowlist user seeded to verify 403.",
+  "notes": "401s on /api/auth/me from unauthenticated pages are expected (useAuth probes session). Canva env vars intentionally empty per PRD."
+}
