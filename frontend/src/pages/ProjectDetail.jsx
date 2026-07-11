@@ -2,7 +2,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../lib/api";
 import LazyImage from "../components/portfolio/LazyImage";
-import { ArrowLeft, ExternalLink, Share2, Calendar, User, Tag } from "lucide-react";
+import { ArrowLeft, ExternalLink, Share2, Calendar, User, Tag, Sparkle } from "lucide-react";
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -17,15 +17,14 @@ export default function ProjectDetail() {
 
   const p = data.project;
   const related = data.related || [];
-  const meta = (p.created_at || "").slice(0, 10);
+  const meta = (p.project_date || p.created_at || "").slice(0, 10);
+  const cs = p.case_study || {};
+  const hasCaseStudy = ["challenge","goal","process","outcome","impact"].some(k => (cs[k] || "").trim());
 
   const share = async () => {
     const url = window.location.href;
-    if (navigator.share) {
-      try { await navigator.share({ title: p.title, url }); } catch {}
-    } else {
-      navigator.clipboard.writeText(url);
-    }
+    if (navigator.share) { try { await navigator.share({ title: p.title, url }); } catch {} }
+    else { navigator.clipboard.writeText(url); }
   };
 
   return (
@@ -58,14 +57,25 @@ export default function ProjectDetail() {
           <div className="mt-8 space-y-4 text-sm">
             {p.organization && <Row icon={<User className="w-4 h-4" />} label="Organization" value={p.organization} />}
             {p.role && <Row icon={<User className="w-4 h-4" />} label="Role" value={p.role} />}
-            {meta && <Row icon={<Calendar className="w-4 h-4" />} label="Created" value={meta} />}
+            {meta && <Row icon={<Calendar className="w-4 h-4" />} label="Date" value={meta} />}
+            {cs.timeline && <Row icon={<Calendar className="w-4 h-4" />} label="Timeline" value={cs.timeline} />}
             {p.dimensions && <Row label="Dimensions" value={typeof p.dimensions === "object" ? `${p.dimensions.width || ""}×${p.dimensions.height || ""}` : String(p.dimensions)} />}
             {p.tools_used?.length > 0 && <Row label="Tools" value={p.tools_used.join(", ")} />}
             {p.source_account?.display_name && <Row label="Source" value={`Canva · ${p.source_account.display_name}`} />}
           </div>
 
+          {p.skills?.length > 0 && (
+            <div className="mt-6">
+              <p className="text-xs uppercase tracking-wider text-gray-400 font-medium mb-2">Skills demonstrated</p>
+              <div className="flex flex-wrap gap-2">
+                {p.skills.map(s => (
+                  <Link key={s} to={`/gallery?q=${encodeURIComponent(s)}`} className="chip hover:opacity-80"><Sparkle className="w-3 h-3" /> {s}</Link>
+                ))}
+              </div>
+            </div>
+          )}
           {p.tags?.length > 0 && (
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap gap-2">
               {p.tags.map((t) => <span key={t} className="chip"><Tag className="w-3 h-3" /> {t}</span>)}
             </div>
           )}
@@ -90,6 +100,21 @@ export default function ProjectDetail() {
           </div>
         </div>
       </div>
+
+      {/* Case study */}
+      {hasCaseStudy && (
+        <section className="mt-20 rounded-3xl bg-white border border-gray-100 p-8 md:p-12" data-testid="case-study">
+          <p className="text-xs uppercase tracking-widest font-semibold mb-2" style={{ color: "rgb(124, 58, 237)" }}>Case Study</p>
+          <h2 className="heading-font text-3xl font-bold mb-8" style={{ color: "rgb(26, 26, 46)" }}>The story behind this project</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {cs.challenge && <CaseBlock label="Challenge" body={cs.challenge} />}
+            {cs.goal && <CaseBlock label="Goal" body={cs.goal} />}
+            {cs.process && <CaseBlock label="Process" body={cs.process} full />}
+            {cs.outcome && <CaseBlock label="Outcome" body={cs.outcome} />}
+            {cs.impact && <CaseBlock label="Impact" body={cs.impact} accent />}
+          </div>
+        </section>
+      )}
 
       {related.length > 0 && (
         <section className="mt-20">
@@ -120,6 +145,15 @@ function Row({ icon, label, value }) {
         <p className="text-xs uppercase tracking-wider text-gray-400 font-medium">{label}</p>
         <p className="text-gray-800 mt-0.5">{value}</p>
       </div>
+    </div>
+  );
+}
+
+function CaseBlock({ label, body, full, accent }) {
+  return (
+    <div className={`${full ? "md:col-span-2" : ""} ${accent ? "p-6 rounded-2xl bg-purple-50 border border-purple-100" : ""}`}>
+      <p className="text-xs uppercase tracking-widest font-semibold mb-2" style={{ color: accent ? "rgb(124, 58, 237)" : "rgb(107, 114, 128)" }}>{label}</p>
+      <p className="text-gray-700 leading-relaxed whitespace-pre-line">{body}</p>
     </div>
   );
 }

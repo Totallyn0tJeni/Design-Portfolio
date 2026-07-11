@@ -19,8 +19,9 @@ from typing import List, Optional, Dict, Any
 
 import httpx
 from dotenv import load_dotenv
-from fastapi import FastAPI, APIRouter, Request, HTTPException, Depends, Response, Cookie, Header, Query
-from fastapi.responses import RedirectResponse, JSONResponse
+from fastapi import FastAPI, APIRouter, Request, HTTPException, Depends, Response, Cookie, Header, Query, UploadFile, File, Form
+from fastapi.responses import RedirectResponse, JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field
@@ -49,6 +50,56 @@ app.add_middleware(
 
 ADMIN_EMAILS_ENV = [e.strip().lower() for e in os.environ.get("ADMIN_EMAILS", "").split(",") if e.strip()]
 
+# ------------------- Status Workflow -------------------
+STATUS_VALUES = ["imported", "needs_review", "draft", "published", "archived"]
+
+# ------------------- Storage (provider-agnostic) -------------------
+UPLOAD_DIR = Path("/app/uploads")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+R2_CONFIGURED = bool(os.environ.get("R2_ACCOUNT_ID") and os.environ.get("R2_ACCESS_KEY_ID")
+                     and os.environ.get("R2_SECRET_ACCESS_KEY") and os.environ.get("R2_BUCKET"))
+
+class Storage:
+    """Provider-agnostic storage. Local by default; R2 when configured."""
+    async def put(self, key: str, data: bytes, content_type: str) -> str:
+        if R2_CONFIGURED:
+            return await self._put_r2(key, data, content_type)
+        p = UPLOAD_DIR / key
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_bytes(data)
+        return f"/api/assets/file/{key}"
+
+    async def delete(self, key: str) -> None:
+        if R2_CONFIGURED:
+            await self._delete_r2(key); return
+        p = UPLOAD_DIR / key
+        if p.exists():
+            p.unlink()
+
+    async def _put_r2(self, key: str, data: bytes, content_type: str) -> str:
+        import boto3  # lazy import
+        s3 = boto3.client("s3",
+            endpoint_url=f"https://{os.environ['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com",
+            aws_access_key_id=os.environ["R2_ACCESS_KEY_ID"],
+            aws_secret_access_key=os.environ["R2_SECRET_ACCESS_KEY"],
+            region_name="auto",
+        )
+        s3.put_object(Bucket=os.environ["R2_BUCKET"], Key=key, Body=data, ContentType=content_type, ACL="public-read")
+        public_base = os.environ.get("R2_PUBLIC_BASE_URL")
+        return f"{public_base.rstrip('/')}/{key}" if public_base else f"/api/assets/file/{key}"
+
+    async def _delete_r2(self, key: str) -> None:
+        import boto3
+        s3 = boto3.client("s3",
+            endpoint_url=f"https://{os.environ['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com",
+            aws_access_key_id=os.environ["R2_ACCESS_KEY_ID"],
+            aws_secret_access_key=os.environ["R2_SECRET_ACCESS_KEY"],
+            region_name="auto",
+        )
+        s3.delete_object(Bucket=os.environ["R2_BUCKET"], Key=key)
+
+storage = Storage()
+
 # ------------------- Helpers -------------------
 def now_utc() -> datetime:
     return datetime.now(timezone.utc)
@@ -65,10 +116,34 @@ async def ensure_indexes():
     await db.users.create_index("email", unique=True)
     await db.user_sessions.create_index("session_token", unique=True)
     await db.canva_accounts.create_index([("user_id", 1), ("canva_user_id", 1)], unique=True)
-    await db.projects.create_index([("provider", 1), ("external_id", 1)], unique=True, sparse=True)
+    # Partial unique index: only enforce uniqueness when external_id is a string
+    # (manual projects set external_id=None and multiple such rows must coexist).
+    try:
+        await db.projects.create_index(
+            [("provider", 1), ("external_id", 1)],
+            unique=True,
+            name="provider_external_id_unique",
+            partialFilterExpression={"external_id": {"$type": "string"}},
+        )
+    except Exception:
+        # Legacy (non-partial) index exists — drop and recreate.
+        try:
+            await db.projects.drop_index("provider_1_external_id_1")
+        except Exception:
+            pass
+        await db.projects.create_index(
+            [("provider", 1), ("external_id", 1)],
+            unique=True,
+            name="provider_external_id_unique",
+            partialFilterExpression={"external_id": {"$type": "string"}},
+        )
     await db.projects.create_index("slug", unique=True, sparse=True)
+    await db.projects.create_index("status")
+    await db.projects.create_index("organization")
     await db.projects.create_index([("title", "text"), ("description", "text"), ("tags", "text")])
     await db.admin_allowlist.create_index("email", unique=True)
+    await db.assets.create_index("id", unique=True)
+    await db.assets.create_index("project_id")
 
 @app.on_event("startup")
 async def startup():
@@ -422,6 +497,7 @@ def build_project_from_canva(item: Dict[str, Any], canva_account: Dict[str, Any]
         "organization": None, "category": None, "subcategory": None,
         "project_type": item.get("design_type", {}).get("name") if isinstance(item.get("design_type"), dict) else None,
         "tags": [], "featured": False, "draft": False, "archived": False, "hidden": False,
+        "status": "needs_review",
         "thumbnail": thumb, "preview_images": [thumb] if thumb else [],
         "canva_url": urls.get("edit_url"), "view_url": urls.get("view_url"),
         "created_at_source": item.get("created_at"),
@@ -431,7 +507,10 @@ def build_project_from_canva(item: Dict[str, Any], canva_account: Dict[str, Any]
         "design_type": (item.get("design_type") or {}).get("name") if isinstance(item.get("design_type"), dict) else None,
         "dimensions": item.get("page_size") or item.get("dimensions"),
         "tools_used": ["Canva"], "role": None,
-        "color_palette": [], "typography": [],
+        "skills": [], "project_date": item.get("created_at"),
+        "case_study": {"challenge": "", "goal": "", "process": "", "outcome": "", "impact": "", "timeline": ""},
+        "ai_suggestions": None,
+        "color_palette": [], "typography": [], "order": 0,
         "created_at": iso(now_utc()), "updated_at": iso(now_utc()),
     }
 
@@ -469,9 +548,10 @@ async def sync_canva(body: Optional[Dict[str, Any]] = None, user=Depends(get_cur
                 if existing:
                     # preserve manual overrides
                     preserve = {k: existing[k] for k in ("organization", "category", "tags", "featured", "description",
-                                                        "role", "color_palette", "typography", "manual_overrides")
-                                if k in existing and existing.get(k)}
-                    proj.update({k: v for k, v in preserve.items() if v})
+                                                        "role", "color_palette", "typography", "manual_overrides",
+                                                        "status", "case_study", "skills", "order", "project_date")
+                                if k in existing and existing.get(k) not in (None, "", [])}
+                    proj.update({k: v for k, v in preserve.items()})
                     proj["id"] = existing["id"]
                     proj["created_at"] = existing.get("created_at", proj["created_at"])
                     await db.projects.update_one({"id": existing["id"]}, {"$set": proj})
@@ -518,27 +598,42 @@ async def list_projects(
     project_type: Optional[str] = None,
     featured: Optional[bool] = None,
     tag: Optional[str] = None,
+    status: Optional[str] = None,
     sort: str = "newest",
     limit: int = 60,
     skip: int = 0,
     include_hidden: bool = False,
 ):
-    match: Dict[str, Any] = {"archived": {"$ne": True}}
+    match: Dict[str, Any] = {}
+    if status:
+        match["status"] = status
     if not include_hidden:
-        match["hidden"] = {"$ne": True}
-        match["draft"] = {"$ne": True}
+        # Public listing: only show published (and legacy projects without status field that aren't draft/hidden/archived)
+        match["$and"] = [
+            {"$or": [{"status": "published"}, {"status": {"$exists": False}}]},
+            {"archived": {"$ne": True}},
+            {"hidden": {"$ne": True}},
+            {"draft": {"$ne": True}},
+        ]
     if organization: match["organization"] = organization
     if category: match["category"] = category
     if project_type: match["project_type"] = project_type
     if featured is not None: match["featured"] = featured
     if tag: match["tags"] = tag
     if q:
-        match["$or"] = [
+        match.setdefault("$and", []).append({"$or": [
             {"title": {"$regex": q, "$options": "i"}},
             {"description": {"$regex": q, "$options": "i"}},
             {"tags": {"$regex": q, "$options": "i"}},
             {"organization": {"$regex": q, "$options": "i"}},
-        ]
+            {"skills": {"$regex": q, "$options": "i"}},
+        ]}) if "$and" in match else match.update({"$or": [
+            {"title": {"$regex": q, "$options": "i"}},
+            {"description": {"$regex": q, "$options": "i"}},
+            {"tags": {"$regex": q, "$options": "i"}},
+            {"organization": {"$regex": q, "$options": "i"}},
+            {"skills": {"$regex": q, "$options": "i"}},
+        ]})
     if year:
         match["$expr"] = {"$eq": [{"$year": {"$dateFromString": {"dateString": "$created_at", "onError": None}}}, year]}
 
@@ -547,6 +642,7 @@ async def list_projects(
         "oldest": [("created_at", 1)],
         "alphabetical": [("title", 1)],
         "recently_updated": [("updated_at", -1)],
+        "manual": [("order", 1), ("created_at", -1)],
     }
     cursor = db.projects.find(match, {"_id": 0}).sort(sort_map.get(sort, sort_map["newest"])).skip(skip).limit(limit)
     items = await cursor.to_list(limit)
@@ -591,7 +687,8 @@ async def get_project(project_id: str):
 async def update_project(project_id: str, payload: Dict[str, Any], user=Depends(get_current_user)):
     allowed = {"title", "description", "organization", "category", "subcategory", "project_type",
                "tags", "featured", "draft", "archived", "hidden", "thumbnail", "preview_images",
-               "role", "tools_used", "color_palette", "typography", "dimensions", "slug"}
+               "role", "tools_used", "color_palette", "typography", "dimensions", "slug",
+               "status", "case_study", "skills", "order", "project_date"}
     update = {k: v for k, v in payload.items() if k in allowed}
     if "title" in update and "slug" not in update:
         update["slug"] = slugify(update["title"])
@@ -644,19 +741,241 @@ async def admin_dashboard(user=Depends(get_current_user)):
     total = await db.projects.count_documents({})
     featured = await db.projects.count_documents({"featured": True})
     uncategorized = await db.projects.count_documents({"$or": [{"category": None}, {"organization": None}]})
-    needing_review = await db.projects.count_documents({"draft": True})
-    archived = await db.projects.count_documents({"archived": True})
+    by_status = {}
+    for s in STATUS_VALUES:
+        by_status[s] = await db.projects.count_documents({"status": s})
+    needing_review = by_status.get("needs_review", 0) + await db.projects.count_documents({"draft": True, "status": {"$exists": False}})
+    published = by_status.get("published", 0)
+    archived = by_status.get("archived", 0) + await db.projects.count_documents({"archived": True, "status": {"$exists": False}})
     accounts = await db.canva_accounts.find({"user_id": user["user_id"]},
                                             {"_id": 0, "access_token": 0, "refresh_token": 0}).to_list(50)
     last_sync = await db.sync_logs.find_one({}, {"_id": 0}, sort=[("started_at", -1)])
     recent_errors = await db.sync_logs.find({"errors": {"$ne": []}}, {"_id": 0}).sort("started_at", -1).limit(5).to_list(5)
+    asset_count = await db.assets.count_documents({})
     return {
         "totals": {"projects": total, "featured": featured, "uncategorized": uncategorized,
-                   "needing_review": needing_review, "archived": archived},
+                   "needing_review": needing_review, "published": published, "archived": archived,
+                   "assets": asset_count},
+        "by_status": by_status,
         "canva_accounts": accounts, "canva_configured": canva_configured(),
+        "storage": {"r2_configured": R2_CONFIGURED, "local_path": str(UPLOAD_DIR)},
         "last_sync": last_sync, "recent_errors": recent_errors,
         "api_status": "ok", "db_status": "ok",
     }
+
+# ------------------- Bulk Actions -------------------
+@api.post("/projects/bulk")
+async def bulk_projects(payload: Dict[str, Any], user=Depends(get_current_user)):
+    ids = payload.get("ids") or []
+    action = payload.get("action")
+    if not ids or not action:
+        raise HTTPException(400, "ids and action required")
+    q = {"id": {"$in": ids}}
+    if action == "delete":
+        r = await db.projects.delete_many(q)
+        return {"ok": True, "affected": r.deleted_count}
+    if action == "archive":
+        r = await db.projects.update_many(q, {"$set": {"status": "archived", "archived": True, "updated_at": iso(now_utc())}})
+        return {"ok": True, "affected": r.modified_count}
+    if action == "publish":
+        r = await db.projects.update_many(q, {"$set": {"status": "published", "draft": False, "hidden": False, "archived": False, "updated_at": iso(now_utc())}})
+        return {"ok": True, "affected": r.modified_count}
+    if action == "set_status":
+        v = payload.get("value")
+        if v not in STATUS_VALUES: raise HTTPException(400, "invalid status")
+        r = await db.projects.update_many(q, {"$set": {"status": v, "updated_at": iso(now_utc())}})
+        return {"ok": True, "affected": r.modified_count}
+    if action == "set_organization":
+        r = await db.projects.update_many(q, {"$set": {"organization": payload.get("value"), "updated_at": iso(now_utc())}})
+        return {"ok": True, "affected": r.modified_count}
+    if action == "set_category":
+        r = await db.projects.update_many(q, {"$set": {"category": payload.get("value"), "updated_at": iso(now_utc())}})
+        return {"ok": True, "affected": r.modified_count}
+    if action == "set_featured":
+        r = await db.projects.update_many(q, {"$set": {"featured": bool(payload.get("value")), "updated_at": iso(now_utc())}})
+        return {"ok": True, "affected": r.modified_count}
+    if action == "add_tags":
+        tags = payload.get("value") or []
+        r = await db.projects.update_many(q, {"$addToSet": {"tags": {"$each": tags}}, "$set": {"updated_at": iso(now_utc())}})
+        return {"ok": True, "affected": r.modified_count}
+    if action == "reorder":
+        # value = [{"id": "...", "order": 0}, ...]
+        for item in payload.get("value", []):
+            await db.projects.update_one({"id": item["id"]}, {"$set": {"order": int(item.get("order", 0))}})
+        return {"ok": True, "affected": len(payload.get("value", []))}
+    raise HTTPException(400, f"unknown action: {action}")
+
+# ------------------- AI Suggestions (non-destructive) -------------------
+async def _llm_json(system: str, prompt: str, model: str = "claude-sonnet-4-5-20250929") -> Optional[Dict[str, Any]]:
+    try:
+        from emergentintegrations.llm.chat import LlmChat, UserMessage
+    except Exception as e:
+        logger.warning(f"emergentintegrations not available: {e}")
+        return None
+    api_key = os.environ.get("EMERGENT_LLM_KEY", "")
+    if not api_key: return None
+    chat = LlmChat(api_key=api_key, session_id=f"ai-{uuid.uuid4().hex[:8]}", system_message=system).with_model("anthropic", model)
+    try:
+        resp = await chat.send_message(UserMessage(text=prompt))
+        text = resp if isinstance(resp, str) else str(resp)
+        m = re.search(r"\{.*\}", text, re.DOTALL)
+        return json.loads(m.group(0)) if m else None
+    except Exception as e:
+        logger.error(f"LLM error: {e}")
+        return None
+
+@api.post("/ai/suggest/{project_id}")
+async def ai_suggest(project_id: str, user=Depends(get_current_user)):
+    """Generate AI suggestions for a project. Does NOT apply changes — returns suggestions with confidence."""
+    p = await db.projects.find_one({"id": project_id}, {"_id": 0})
+    if not p: raise HTTPException(404, "Not found")
+    system = (
+        "You suggest metadata for a design portfolio project. "
+        f"Valid organizations: {', '.join(ORGANIZATIONS)}. "
+        f"Valid categories: {', '.join(CATEGORIES)}. "
+        "Return ONLY JSON with keys: title (improved title), description (2-3 sentences), "
+        "organization (from list), category (from list), tags (array 4-8 lowercase), "
+        "skills (array of 3-6 skills demonstrated, e.g. 'Brand Identity', 'Typography', 'Layout Design'), "
+        "tools_used (array), featured (boolean), "
+        "confidence (object: {organization: 0-1, category: 0-1, overall: 0-1}), "
+        "reasoning (1 sentence). No prose."
+    )
+    ctx = {"title": p.get("title"), "folder": p.get("folder"), "current_description": p.get("description"),
+           "current_org": p.get("organization"), "current_cat": p.get("category"),
+           "current_tags": p.get("tags"), "design_type": p.get("design_type"),
+           "canva_tags": p.get("canva_tags"), "dimensions": p.get("dimensions")}
+    result = await _llm_json(system, f"Suggest metadata for this project:\n{json.dumps(ctx)}")
+    if not result:
+        raise HTTPException(503, "AI service unavailable")
+    # sanitize
+    out = {
+        "title": result.get("title"),
+        "description": result.get("description"),
+        "organization": result.get("organization") if result.get("organization") in ORGANIZATIONS else None,
+        "category": result.get("category") if result.get("category") in CATEGORIES else None,
+        "tags": [str(t).lower() for t in (result.get("tags") or [])][:8],
+        "skills": [str(s) for s in (result.get("skills") or [])][:6],
+        "tools_used": [str(t) for t in (result.get("tools_used") or [])][:8],
+        "featured": bool(result.get("featured", False)),
+        "confidence": result.get("confidence") or {},
+        "reasoning": result.get("reasoning", ""),
+        "generated_at": iso(now_utc()), "model": "claude-sonnet-4-5",
+    }
+    await db.projects.update_one({"id": project_id}, {"$set": {"ai_suggestions": out, "updated_at": iso(now_utc())}})
+    return {"ok": True, "suggestions": out}
+
+@api.post("/ai/case-study/{project_id}")
+async def ai_case_study(project_id: str, user=Depends(get_current_user)):
+    p = await db.projects.find_one({"id": project_id}, {"_id": 0})
+    if not p: raise HTTPException(404, "Not found")
+    system = (
+        "You draft a case study for a design portfolio. Return ONLY JSON with keys: "
+        "challenge (2-3 sentences), goal (1-2 sentences), process (3-4 sentences), "
+        "outcome (1-2 sentences), impact (metric-oriented, 1-2 sentences), timeline (e.g. '2 weeks'). "
+        "Be specific, realistic, and grounded in the project details. Do not invent metrics."
+    )
+    ctx = {"title": p.get("title"), "organization": p.get("organization"), "category": p.get("category"),
+           "description": p.get("description"), "tags": p.get("tags"), "role": p.get("role"),
+           "tools_used": p.get("tools_used")}
+    result = await _llm_json(system, f"Draft a case study for:\n{json.dumps(ctx)}")
+    if not result:
+        raise HTTPException(503, "AI service unavailable")
+    cs = {k: result.get(k, "") for k in ("challenge", "goal", "process", "outcome", "impact", "timeline")}
+    cs["generated_at"] = iso(now_utc())
+    return {"ok": True, "case_study": cs}
+
+@api.post("/ai/improve-description/{project_id}")
+async def ai_improve_description(project_id: str, user=Depends(get_current_user)):
+    p = await db.projects.find_one({"id": project_id}, {"_id": 0})
+    if not p: raise HTTPException(404, "Not found")
+    system = ("Improve a design portfolio project description. Return ONLY JSON: {\"description\": \"...\"}. "
+              "2-3 sentences, warm-professional tone, focused on impact, no fluff.")
+    ctx = {"title": p.get("title"), "description": p.get("description"), "organization": p.get("organization"),
+           "category": p.get("category"), "tags": p.get("tags")}
+    result = await _llm_json(system, f"Improve:\n{json.dumps(ctx)}")
+    if not result: raise HTTPException(503, "AI service unavailable")
+    return {"ok": True, "description": result.get("description", "")}
+
+@api.post("/projects/{project_id}/apply-suggestions")
+async def apply_suggestions(project_id: str, payload: Dict[str, Any], user=Depends(get_current_user)):
+    """Apply specific AI-suggested fields. payload = {fields: ['title', 'tags', ...]}"""
+    p = await db.projects.find_one({"id": project_id}, {"_id": 0})
+    if not p: raise HTTPException(404, "Not found")
+    sug = p.get("ai_suggestions") or {}
+    fields = payload.get("fields") or []
+    upd: Dict[str, Any] = {}
+    for f in fields:
+        if f in sug and sug[f] not in (None, ""):
+            upd[f] = sug[f]
+    if not upd:
+        return {"ok": True, "applied": []}
+    upd["updated_at"] = iso(now_utc())
+    upd["manual_overrides"] = True
+    if "title" in upd:
+        upd["slug"] = slugify(upd["title"])
+    await db.projects.update_one({"id": project_id}, {"$set": upd})
+    return {"ok": True, "applied": list(upd.keys())}
+
+# ------------------- Assets (uploads) -------------------
+@api.post("/assets/upload")
+async def upload_asset(
+    file: UploadFile = File(...),
+    project_id: Optional[str] = Form(None),
+    user=Depends(get_current_user),
+):
+    MAX = 1024 * 1024 * 1024  # 1 GB soft ceiling
+    ALLOWED = {"image/png", "image/jpeg", "image/webp", "image/gif", "application/pdf",
+               "video/mp4", "video/quicktime", "video/webm"}
+    ct = file.content_type or "application/octet-stream"
+    data = await file.read()
+    if len(data) > MAX:
+        raise HTTPException(413, "File too large (max 1 GB)")
+    if ct not in ALLOWED and not (ct.startswith("image/") or ct.startswith("video/")):
+        raise HTTPException(415, f"Unsupported content type: {ct}")
+
+    asset_id = f"ast_{uuid.uuid4().hex[:12]}"
+    ext = (file.filename or "").split(".")[-1].lower()[:8] or "bin"
+    key = f"assets/{asset_id}.{ext}"
+    url = await storage.put(key, data, ct)
+
+    doc = {
+        "id": asset_id, "key": key, "url": url, "filename": file.filename,
+        "content_type": ct, "size": len(data), "project_id": project_id,
+        "uploaded_by": user["user_id"], "uploaded_at": iso(now_utc()),
+        "storage": "r2" if R2_CONFIGURED else "local",
+    }
+    await db.assets.insert_one(doc)
+    if project_id:
+        await db.projects.update_one({"id": project_id},
+            {"$push": {"preview_images": url}, "$set": {"updated_at": iso(now_utc())}})
+    return {"ok": True, "asset": {k: v for k, v in doc.items() if k != "_id"}}
+
+@api.get("/assets")
+async def list_assets(project_id: Optional[str] = None, unused_only: bool = False, limit: int = 100, skip: int = 0, user=Depends(get_current_user)):
+    match: Dict[str, Any] = {}
+    if project_id: match["project_id"] = project_id
+    if unused_only: match["project_id"] = None
+    items = await db.assets.find(match, {"_id": 0}).sort("uploaded_at", -1).skip(skip).limit(limit).to_list(limit)
+    total = await db.assets.count_documents(match)
+    return {"items": items, "total": total}
+
+@api.delete("/assets/{asset_id}")
+async def delete_asset(asset_id: str, user=Depends(get_current_user)):
+    a = await db.assets.find_one({"id": asset_id}, {"_id": 0})
+    if not a: raise HTTPException(404, "Not found")
+    try: await storage.delete(a["key"])
+    except Exception as e: logger.warning(f"asset delete failed: {e}")
+    if a.get("project_id"):
+        await db.projects.update_one({"id": a["project_id"]}, {"$pull": {"preview_images": a["url"]}})
+    await db.assets.delete_one({"id": asset_id})
+    return {"ok": True}
+
+@api.get("/assets/file/{path:path}")
+async def serve_asset(path: str):
+    p = UPLOAD_DIR / path
+    if not p.exists() or not p.is_file():
+        raise HTTPException(404, "Not found")
+    return FileResponse(str(p))
 
 @api.get("/")
 async def root():

@@ -1,0 +1,44 @@
+{
+  "summary": "Phase 2 backend + frontend testing. 24/24 pytest cases pass (status workflow, bulk actions, AI suggest/case-study/improve, apply-suggestions, assets upload/list/serve/delete/attach, admin dashboard v2). Frontend admin CMS renders correctly with all 4 section tabs, 5 status tabs, 6 stat cards, project row + bulk bar + editor 3-tabs + save button, Media library empty state + Upload btn, Canva 'not configured' notice + disabled Connect btn, Team allowlist showing both seeded emails. Public /project/{slug} renders Case Study section with all 5 blocks (Challenge/Goal/Process/Outcome/Impact) in purple 'CASE STUDY' label. Fixed one CRITICAL backend bug: sparse unique index on (provider, external_id) was rejecting all 2nd+ manual projects because sparse skips only MISSING fields, not null values. Converted to partialFilterExpression on {external_id: {$type: 'string'}} and dropped/recreated index.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/projects (public)", "issue": "Manual projects with provider='manual' are labeled 'Canva' in gallery card meta line (frontend cosmetic — likely hardcoded footer). Confirmed p.provider stored as 'manual' server-side."},
+      {"endpoint": "/api/projects", "issue": "list_projects has a subtle bug in the `q` search branch: uses `match.update({...})` on the else path which OVERWRITES existing match keys silently. Works in current tests, but if q+organization are both provided in an else path, filters may be lost. Consider always appending to $and."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Gallery card", "issues": ["Manual (non-Canva) projects still show '• Canva' after organization on their card. Should show provider dynamically or omit for manual."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_phase2.py",
+    "/app/test_reports/pytest/phase2.xml"
+  ],
+  "action_items": [
+    "REVIEW backend/server.py list_projects: the `match.update` else-branch on q filter can silently drop filters. Refactor to always $and-append.",
+    "Fix Gallery card to not label manual projects as 'Canva' (or expose provider properly).",
+    "None blocking — Phase 2 is production-ready."
+  ],
+  "critical_code_review_comments": [
+    "FIXED: `db.projects.create_index([('provider',1),('external_id',1)], unique=True, sparse=True)` allowed at most one manual project because sparse only skips MISSING fields, not null ones. Replaced with partialFilterExpression={'external_id': {'$type':'string'}}. Also dropped legacy index. This bug would have broken all Phase 2 manual project creation past the first one.",
+    "server.py is now ~970 lines — approaching the 700-line split threshold. Consider splitting into routers/ (auth, canva, projects, ai, assets, admin) for maintainability.",
+    "Storage.put uses synchronous boto3 inside an async function; for R2 uploads this will block the event loop. Consider aioboto3 or run_in_threadpool.",
+    "In server.py list_projects, the q-filter branch uses `match.update({...})` in an else path which will silently OVERWRITE existing top-level keys if any prior `$or` was set. Not currently exploitable but fragile.",
+    "ProjectEditor lightbox modal contains tab buttons that Playwright's default hit-test believes are intercepted by the sticky <header z-40>. Actual z-index of .lightbox-backdrop is 60 so real users are fine — but consider raising header z or lowering it below 60 to be defensive against tooling."
+  ],
+  "updated_files": [
+    "/app/backend/server.py (fixed provider/external_id index: sparse -> partialFilterExpression)",
+    "/app/backend/tests/test_phase2.py (new)"
+  ],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "test_credentials": "Bearer test_session_1783738416695 (seeded per /app/auth_testing.md for user jeni.1245690@gmail.com).",
+  "seed_data_creation": "Wiped DB then created 1 manual project 'Season Highlight Reel' (proj_9c6eaacc5b3a) with status=published, organization=FIRST Robotics, category=Marketing, skills=['Video Editing','Storytelling'], and full case_study for the public /project/season-highlight-reel test.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend has 1 project (Season Highlight Reel, published) and 0 assets in test_database. Session token test_session_1783738416695 is valid for 7 days. Backend server.py had a critical fix applied to the projects index — DO NOT revert. AI endpoints (claude-sonnet-4-5) are ONLINE and returned real suggestions during testing. All 5 AI endpoints (/api/ai/suggest, /api/ai/case-study, /api/ai/improve-description, /api/ai/classify, /api/projects/{id}/apply-suggestions) verified working with 200 responses.",
+  "rca of the issue": "Root cause of manual-project 500s: MongoDB `sparse: true` unique compound index on {provider, external_id} does NOT skip documents where external_id is explicitly null — it only skips documents where the field is entirely absent. The create_project endpoint hardcodes external_id=None for manual projects. Once the first manual project was inserted, every subsequent insert collided on key {provider:'manual', external_id:null}. Reproduction: POST /api/projects twice with any payload → 2nd returns 500 DuplicateKeyError. Fix: convert to partialFilterExpression matching only $type='string' external_ids; drop the old index then recreate. Verified with 15+ project inserts during test run."
+}
